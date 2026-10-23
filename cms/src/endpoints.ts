@@ -6,7 +6,8 @@ export const commonEndpoint: Endpoint = {
   handler: async (req) => {
     const header = await req.payload.findGlobal({ slug: 'header', depth: 0 })
     const footer = await req.payload.findGlobal({ slug: 'footer', depth: 0 })
-    const clean = (arr: any[] = []) => arr.map(({ label, href }) => ({ label, href }))
+    const clean = (arr: { label: string; href: string }[] | null | undefined = []) =>
+      (arr ?? []).map(({ label, href }) => ({ label, href }))
     return Response.json({
       header: { logo: header.logo, links: clean(header.links), buttonText: header.buttonText, buttonLink: header.buttonLink },
       footer: { text: footer.text, links: clean(footer.links) },

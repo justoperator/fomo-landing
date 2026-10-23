@@ -3,13 +3,13 @@ import { esc } from './utils'
 
 export const renderHeader = (h: Common['header']) => `
 <header class="head"><div class="wrap head-in">
-  <a class="brand" href="/"><i></i>${esc(h.logo)}</a>
-  <nav>${h.links.map((l) => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join('')}</nav>
-  <a class="btn primary" href="${esc(h.buttonLink)}">${esc(h.buttonText)}</a>
+  <a class="brand" href="/"><i></i><span>${esc(h.logo)}</span></a>
+  <nav aria-label="Main navigation">${h.links.map((l) => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join('')}</nav>
+  <a class="btn primary head-cta" href="${esc(h.buttonLink)}">${esc(h.buttonText)}</a>
 </div></header>`
 
 export const renderFooter = (f: Common['footer']) => `
 <footer class="foot"><div class="wrap foot-in">
   <span>${esc(f.text)}</span>
-  <nav>${f.links.map((l) => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join('')}</nav>
+  ${f.links.length ? `<nav aria-label="Footer navigation">${f.links.map((l) => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join('')}</nav>` : ''}
 </div></footer>`

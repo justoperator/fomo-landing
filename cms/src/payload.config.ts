@@ -10,6 +10,7 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Header, Footer } from './globals'
 import { commonEndpoint, pageEndpoint } from './endpoints'
+import { seed } from './seed'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -37,4 +38,7 @@ export default buildConfig({
   cors: [process.env.FRONTEND_URL || 'http://localhost:5173'],
   sharp,
   plugins: [],
+  onInit: async (payload) => {
+    await seed(payload)
+  },
 })
