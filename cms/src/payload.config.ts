@@ -20,6 +20,12 @@ const corsOrigins = [
 ]
   .filter((origin): origin is string => Boolean(origin))
   .map((origin) => origin.trim().replace(/\/+$/, ''))
+const csrfOrigins = [
+  ...corsOrigins,
+  process.env.CMS_URL,
+]
+  .filter((origin): origin is string => Boolean(origin))
+  .map((origin) => origin.trim().replace(/\/+$/, ''))
 
 export default buildConfig({
   admin: {
@@ -42,7 +48,7 @@ export default buildConfig({
     },
   }),
   cors: [...new Set(corsOrigins)],
-  csrf: [...new Set(corsOrigins)],
+  csrf: [...new Set(csrfOrigins)],
   sharp,
   plugins: [],
   onInit: async (payload) => {
