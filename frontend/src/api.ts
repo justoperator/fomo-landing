@@ -1,6 +1,23 @@
 import type { Common, PageData } from './types'
 
-const apiUrl = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api'
+function resolveApiUrl(value: string | undefined): string {
+  const configured = value?.trim()
+
+  if (!configured) return '/api'
+  if (configured.startsWith('/')) return configured.replace(/\/+$/, '') || '/api'
+
+  try {
+    const url = new URL(configured)
+    const pathname = url.pathname.replace(/\/+$/, '')
+    if (!pathname) url.pathname = '/api'
+    else url.pathname = pathname
+    return url.toString().replace(/\/+$/, '')
+  } catch (error) {
+    throw new Error(`Invalid VITE_API_URL: ${configured}`, { cause: error })
+  }
+}
+
+const apiUrl = resolveApiUrl(import.meta.env.VITE_API_URL as string | undefined)
 
 async function request<T>(path: string): Promise<T> {
   const response = await fetch(`${apiUrl}${path}`)

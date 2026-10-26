@@ -14,6 +14,12 @@ import { seed } from './seed'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const corsOrigins = [
+  process.env.FRONTEND_URL,
+  ...(process.env.FRONTEND_URLS?.split(',') ?? []),
+]
+  .filter((origin): origin is string => Boolean(origin))
+  .map((origin) => origin.trim().replace(/\/+$/, ''))
 
 export default buildConfig({
   admin: {
@@ -35,8 +41,8 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  cors: [process.env.FRONTEND_URL].filter(Boolean),
-  csrf: [process.env.FRONTEND_URL].filter(Boolean),
+  cors: [...new Set(corsOrigins)],
+  csrf: [...new Set(corsOrigins)],
   sharp,
   plugins: [],
   onInit: async (payload) => {
