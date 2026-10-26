@@ -35,7 +35,8 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  cors: [process.env.FRONTEND_URL || 'http://localhost:5173'],
+  cors: [process.env.FRONTEND_URL].filter(Boolean),
+  csrf: [process.env.FRONTEND_URL].filter(Boolean),
   sharp,
   plugins: [],
   onInit: async (payload) => {
