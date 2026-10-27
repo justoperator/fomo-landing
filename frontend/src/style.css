@@ -35,6 +35,9 @@ h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.15; letter-s
 .head nav, .foot nav { display: flex; align-items: center; gap: 28px; }
 .head nav a, .foot nav a { color: #a4afb7; text-decoration: none; transition: color .2s ease; }
 .head nav a:hover, .foot nav a:hover { color: #fff; }
+.mobile-menu-cta { display: none; }
+.menu-toggle { display: none; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font: 600 15px var(--display); text-decoration: none; white-space: nowrap; }
 .brand i { width: 11px; height: 11px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 5px #ff5a1f1c; }
 
@@ -90,8 +93,27 @@ h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.15; letter-s
 @media (max-width: 620px) {
   .wrap { padding-inline: 20px; }
   .head-in { min-height: 68px; }
-  .head nav { display: none; }
-  .head-cta { min-height: 40px; padding: 8px 12px; font-size: 13px; }
+  .head-in { position: relative; }
+  .menu-toggle {
+    display: inline-flex; flex-direction: column; justify-content: center; gap: 5px;
+    width: 42px; height: 42px; margin-left: auto; padding: 9px;
+    border: 1px solid #ffffff2e; border-radius: 7px; background: transparent;
+    color: #f0f3ee; cursor: pointer;
+  }
+  .menu-toggle i { display: block; width: 100%; height: 2px; border-radius: 2px; background: currentColor; transition: transform .2s ease, opacity .2s ease; }
+  .menu-toggle[aria-expanded="true"] i:nth-of-type(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] i:nth-of-type(2) { opacity: 0; }
+  .menu-toggle[aria-expanded="true"] i:nth-of-type(3) { transform: translateY(-7px) rotate(-45deg); }
+  .head nav {
+    display: none; position: absolute; top: calc(100% + 1px); left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0; padding: 8px 20px 16px;
+    border-top: 1px solid #ffffff12; background: #0c1319f7; box-shadow: 0 18px 30px #00000026;
+  }
+  .head nav.is-open { display: flex; }
+  .head nav a { padding: 13px 0; border-bottom: 1px solid #ffffff12; }
+  .head nav .mobile-menu-cta { display: inline-flex; margin-top: 14px; border-bottom: 0; color: #fff; }
+  .head-cta { display: none; }
+  body.menu-open { overflow: hidden; }
   .hero { padding: 64px 0 72px; }
   .hero p { font-size: 17px; }
   .visual { padding: 15px; }
